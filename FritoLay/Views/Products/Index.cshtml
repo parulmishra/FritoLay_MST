@@ -1,0 +1,24 @@
+﻿@{
+    ViewData["Title"] = "FritoLay";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model IEnumerable<FritoLay.Models.Product>
+
+<h2>To Do List</h2>
+<hr />
+<h4>@Html.DisplayNameFor(model => model.ProductName)</h4>
+<ul>
+    @foreach (var listItem in Model)
+    {
+     <li>
+        @Html.DisplayFor(modelItem => listItem.ProductName) |
+        @Html.ActionLink("Details", "Details", new { id = listItem.ProductId }) |
+        @Html.ActionLink("Edit", "Edit", new { id = listItem.ProductId }) |
+        @Html.ActionLink("Delete", "Delete", new { id = listItem.ProductId })
+    </li>
+    }
+</ul>
+
+<p>@Html.ActionLink("Add Review", "CreateReview")</p>
+<p>@Html.ActionLink("Add new Product", "Create")</p>
