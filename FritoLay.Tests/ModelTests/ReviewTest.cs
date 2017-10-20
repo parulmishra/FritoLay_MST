@@ -7,7 +7,7 @@ using System.Text;
 namespace FritoLay.Tests.ModelTests
 {
     [TestClass]
-    class ReviewTest
+    public class ReviewTest
     {
         [TestMethod]
         public void GetDescriptionTest()

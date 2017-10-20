@@ -12,7 +12,7 @@ using System.Text;
 namespace FritoLay.Tests
 {
     [TestClass]
-    class ProductsControllerTest
+     public class ProductsControllerTest
     {
         // Arrange
         Mock<IProductRepository> mock = new Mock<IProductRepository>();
