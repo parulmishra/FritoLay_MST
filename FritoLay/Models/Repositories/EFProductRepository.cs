@@ -11,8 +11,6 @@ namespace FritoLay.Models
     {
         FritoLayContext db = new FritoLayContext();
 
-        public IQueryable<Product> Products => throw new NotImplementedException();
-
         public EFProductRepository(FritoLayContext connection = null)
         {
             if (connection == null)
@@ -24,6 +22,8 @@ namespace FritoLay.Models
                 this.db = connection;
             }
         }
+        public IQueryable<Product> Products
+        { get { return db.Products; } }
 
         public Product Save(Product product)
         {

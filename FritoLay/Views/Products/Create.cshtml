@@ -1,5 +1,25 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model FritoLay.Models.Product
+
 @{
+    ViewData["Title"] = "Product-Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<hr /><hr />
+<div class="well">
+    <h2>Add A New Product</h2>
+
+    @using (Html.BeginForm("Create", "Product", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.LabelFor(model => model.ProductName)
+        @Html.EditorFor(model => model.ProductName)
+
+        @Html.LabelFor(model => model.CountryOfOrigin)
+        @Html.EditorFor(model => model.CountryOfOrigin)
+
+        @Html.LabelFor(model => model.Cost)
+        @Html.EditorFor(model => model.Cost)
+
+        <input type="submit" value="Create" class="btn btn-default" />
+    }
+    <button>@Html.ActionLink("Back to Products", "Index")</button>
+</div>

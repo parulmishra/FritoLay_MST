@@ -22,9 +22,9 @@ namespace FritoLay.Tests
         {
             mock.Setup(m => m.Products).Returns(new Product[]
             {
-                new Product {ProductId = 1, ProductName = "Lays Chips", Cost = 10.00, CountryOfOrigin = "India", Featured = false},
-                new Product {ProductId = 2, ProductName = "Dorritos", Cost = 15.00, CountryOfOrigin = "USA", Featured = false},
-                new Product {ProductId = 3, ProductName = "Nachos", Cost = 20.00, CountryOfOrigin = "Europe", Featured = false}
+                new Product {ProductId = 1, ProductName = "Lays", Cost = 15, CountryOfOrigin = "India", Featured = false},
+                new Product {ProductId = 2, ProductName = "Dorritos", Cost = 15, CountryOfOrigin = "USA", Featured = false},
+                new Product {ProductId = 3, ProductName = "Nachos", Cost = 20, CountryOfOrigin = "Europe", Featured = false}
             }.AsQueryable());
         }
         [TestMethod]
@@ -59,25 +59,26 @@ namespace FritoLay.Tests
             DbSetup();
             ProductController controller = new ProductController(mock.Object);
             Product testProduct = new Product();
+            testProduct.ProductId = 1;
             testProduct.ProductName = "Lays";
-            testProduct.Cost = 15.00;
+            testProduct.Cost = 15;
             testProduct.CountryOfOrigin = "India";
+            testProduct.Featured = false;
 
             // Act
-            ViewResult indexView = controller.Index() as ViewResult;
-            var collection = indexView.ViewData.Model as List<Product>;
+            var collection = (controller.Index() as ViewResult).ViewData.Model as List<Product>;
 
             //Assert
-            CollectionAssert.Contains(collection, testProduct);
+            CollectionAssertContains(collection, testProduct);
         }
         [TestMethod]
         public void DB_CreateNewEntry_Test()
         {
             // Arrange
-            ProductController controller = new ProductController();
+            ProductController controller = new ProductController(db);
             Product testProduct = new Product();
             testProduct.ProductName = "Test Product";
-            testProduct.Cost = 15.00;
+            testProduct.Cost = 15;
             testProduct.CountryOfOrigin = "India";
 
             // Act
@@ -86,6 +87,17 @@ namespace FritoLay.Tests
 
             // Assert
             CollectionAssert.Contains(collection, testProduct);
+        }
+
+        private void CollectionAssertContains(List<Product> collection, Product product)
+        {
+            foreach(var p in collection)
+            {
+                if (p.Equals(product))
+                    return;
+            }
+
+            throw new Exception($"Collection does not contain element");
         }
     }
 }

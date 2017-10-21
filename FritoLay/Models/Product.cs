@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace FritoLay.Models
 {
     [Table("Products")]
-    public class Product
+    public class Product : IEquatable<Product>
     {
         public Product()
         {
@@ -21,5 +21,18 @@ namespace FritoLay.Models
         public string CountryOfOrigin { get; set; }
         public bool Featured { get; set; }
         public virtual ICollection<Review> Reviews { get; set; }
+
+        public bool Equals(Product other)
+        {
+            if (this.ProductId != other.ProductId)
+                return false;
+            if (this.ProductName != other.ProductName)
+                return false;
+            if (this.Featured != other.Featured)
+                return false;
+            if (this.CountryOfOrigin != other.CountryOfOrigin)
+                return false;
+            return true;
+        }
     }
 }

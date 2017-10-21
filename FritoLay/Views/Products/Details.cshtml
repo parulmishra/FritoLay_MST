@@ -1,5 +1,37 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model FritoLay.Models
+
 @{
+    ViewData["Title"] = "Product - Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<h2>Product Details</h2>
+
+<div class="productDetails well">
+    <h3>@Html.DisplayNameFor(model => model.Product.ProductName):  @Html.DisplayFor(model => model.ProductName)</h3>
+    <h3>@Html.DisplayNameFor(model => model.Product.CountryOfOrigin) :  @Html.DisplayFor(model => model.CountryOfOrigin)</h3>
+    <h3>@Html.DisplayNameFor(model => model.Product.Cost):  $@Html.DisplayFor(model => model.ProductCost)</h3>
+    <h3>Reviews</h3>
+    foreach(var rev in model.Reviews)
+    {
+    <div class="well">
+       <h3>$@Html.DisplayFor(model => model.Review.Description)</h3>
+       <h3>$@Html.DisplayFor(model => model.Review.AuthorName)</h3>
+       <h3>$@Html.DisplayFor(model => model.Review.Rating)</h3>
+     </div>
+    <hr/>
+    }
+</div>
+<div class="options">
+    <div class="row">
+        <div class="col-md-4">
+            <button type="button">@Html.ActionLink("Edit", "Edit", new { id = Model.ProductId })</button>
+        </div>
+        <div class="col-md-4">
+            <button type="button">@Html.ActionLink("Back to Product List", "Index")</button>
+        </div>
+        <div class="col-md-4">
+            <button type="button">@Html.ActionLink("Delete this Product", "Delete", new { id = Model.ProductId })</button>
+        </div>
+        <br><br>
+    </div>
+</div>

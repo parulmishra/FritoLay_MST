@@ -33,7 +33,7 @@ namespace FritoLay.Controllers
         }
         public IActionResult Index()
         {
-            return View(this.productRepo.Products);
+            return View(this.productRepo.Products.ToList());
         }
         
         public IActionResult Details(int productId)
