@@ -21,6 +21,8 @@ namespace FritoLay.Models
             {
                 this.db = connection;
             }
+
+            
         }
         public IQueryable<Product> Products
         { get { return db.Products; } }

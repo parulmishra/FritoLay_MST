@@ -6,11 +6,13 @@ using Microsoft.AspNetCore.Mvc;
 using FritoLay.Models.Repositories;
 using FritoLay.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace FritoLay.Controllers
 {
+
     public class ProductController : Controller
     {
         private IProductRepository productRepo { get; }
@@ -35,10 +37,38 @@ namespace FritoLay.Controllers
         {
             return View(this.productRepo.Products.ToList());
         }
-        
-        public IActionResult Details(int productId)
+
+        public IActionResult Edit(int id)
         {
-            var product = this.productRepo.Products.Where(p => p.ProductId == productId);
+            var product = this.productRepo.Products.FirstOrDefault(p => p.ProductId == id);
+            return View(product);
+        }
+
+        public IActionResult CreateReview(int id)
+        {
+            var product = this.productRepo.Products.FirstOrDefault(p => p.ProductId == id);
+            if(product == null)
+            {
+                throw new Exception($"Product {id} does not exist");
+            }
+
+            var review = new Review();
+            review.ProductId = id;
+            review.Rating = 5;
+            return View(review);
+        }
+
+        [HttpPost]
+        public ActionResult Edit(Product product)
+        {
+            this.productRepo.Edit(product);
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult Details(int id)
+        {
+            var product = this.productRepo.Products.Include(x => x.Reviews).FirstOrDefault(p => p.ProductId == id);
+            //Console.WriteLine($"{product.Reviews.Count}");
             return View(product);
         }
 
@@ -52,14 +82,14 @@ namespace FritoLay.Controllers
         public IActionResult Create(Product product)
         {
             this.productRepo.Save(product);
-            return View("Index");
+            return RedirectToAction("Index");
         }
     
         [HttpPost]
-        public IActionResult Create(Review review)
+        public IActionResult CreateReview(Review review)
         {
             this.productRepo.Save(review);
-            return RedirectToAction("Index");
+            return View("Details", this.productRepo.Products.First(x => x.ProductId == review.ProductId));
         }
     }
 }

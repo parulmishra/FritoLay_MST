@@ -1,0 +1,43 @@
+﻿@model FritoLay.Models.Product
+
+@{
+    ViewData["Title"] = "Product - Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Product Details</h2>
+
+<div class="productDetails well">
+        <h3>@Html.DisplayNameFor(model => model.ProductName):  @Html.DisplayFor(model => model.ProductName)</h3>
+    <h3>@Html.DisplayNameFor(model => model.CountryOfOrigin) :  @Html.DisplayFor(model => model.CountryOfOrigin)</h3>
+    <h3>@Html.DisplayNameFor(model => model.Cost):  $@Html.DisplayFor(model => model.Cost)</h3>
+    
+    @if (Model.Reviews != null)
+    {
+        @foreach (var rev in Model.Reviews)
+        {
+         <div class="well">
+           <h3>@Html.DisplayFor(r => rev.Description)</h3>
+           <h3>@Html.DisplayFor(r => rev.AuthorName)</h3>
+           <h3>@Html.DisplayFor(r => rev.Rating)</h3>
+         </div>
+        <hr/>
+        }
+    }
+</div>
+<div class="options">
+    <div class="row">
+        <div class="col-md-3">
+            <button type="button">@Html.ActionLink("Edit", "Edit", new { id = Model.ProductId })</button>
+        </div>
+        <div class="col-md-3">
+            <button type="button">@Html.ActionLink("Back to Product List", "Index")</button>
+        </div>
+        <div class="col-md-3">
+            <button type="button">@Html.ActionLink("Add Review", "CreateReview", new { id = Model.ProductId })</button>
+        </div>
+        <div class="col-md-3">
+            <button type="button">@Html.ActionLink("Delete this Product", "Delete", new { id = Model.ProductId })</button>
+        </div>
+        <br><br>
+    </div>
+</div>

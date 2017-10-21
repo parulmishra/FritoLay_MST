@@ -37,6 +37,10 @@ namespace FritoLay
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
             app.UseStaticFiles();
             app.UseMvc(routes =>
             {
@@ -45,16 +49,6 @@ namespace FritoLay
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
             loggerFactory.AddConsole();
-
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-
-            app.Run(async (context) =>
-            {
-                await context.Response.WriteAsync("Hello World!");
-            });
         }
     }
 }
