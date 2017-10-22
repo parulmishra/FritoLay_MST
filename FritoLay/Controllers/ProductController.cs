@@ -47,7 +47,7 @@ namespace FritoLay.Controllers
         public IActionResult CreateReview(int id)
         {
             var product = this.productRepo.Products.FirstOrDefault(p => p.ProductId == id);
-            if(product == null)
+            if (product == null)
             {
                 throw new Exception($"Product {id} does not exist");
             }
@@ -84,12 +84,24 @@ namespace FritoLay.Controllers
             this.productRepo.Save(product);
             return RedirectToAction("Index");
         }
-    
+
         [HttpPost]
         public IActionResult CreateReview(Review review)
         {
             this.productRepo.Save(review);
             return View("Details", this.productRepo.Products.First(x => x.ProductId == review.ProductId));
+        }
+        public ActionResult Delete(int id)
+        {
+            var thisProduct = this.productRepo.Products.FirstOrDefault(x => x.ProductId == id);
+            return View(thisProduct);
+        }
+        [HttpPost, ActionName("Delete")]
+        public IActionResult DeleteConfirmed(int id)
+        {
+            var thisProduct = this.productRepo.Products.FirstOrDefault(x => x.ProductId == id);
+            this.productRepo.Remove(thisProduct);
+            return RedirectToAction("Index");
         }
     }
 }
