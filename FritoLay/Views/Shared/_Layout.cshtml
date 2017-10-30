@@ -3,32 +3,39 @@
     <meta name="viewport" content="width=device-width" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-    <link rel="stylesheet" href="style.css">
     <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css'>
-    <link rel="stylesheet" href="/css/Style.css">
+    <link rel="stylesheet" href="~/css/style.css">
     <title>@ViewBag.Title</title>
 </head>
 <body>
-    <nav class="navbar navbar-default navbar-fixed-top">
-        <div class="container" id="topbar">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#top-navbar">
-                    <i class="fa fa-bars" aria-hidden="true"></i>
-                </button>
-                <ul class="nav navbar-nav navbar-left">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                </ul>
-            </div>
-            <div class="collapse navbar-collapse" id="top-navbar">
-                <ul class="nav navbar-nav navbar-right" id="leftbar">
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <ul class="nav navbar-nav">
+                <li class="navbarbrand heading">@Html.ActionLink("MarioFoods", "Index", "Home")</li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <li class="user-nav">Hello @User.Identity.Name</li>
                     <li>@Html.ActionLink("Products", "Index", "Product")</li>
-                </ul>
-            </div>
+                    @Html.ActionLink("", "Index", "Profile")
+                    <li>
+                        @using (Html.BeginForm("LogOff", "User"))
+                        {
+                            <input type="submit" class="logoff" value="Log off" />
+                        }
+                    </li>
+                }
+                else
+                {
+                    <li>@Html.ActionLink("Products", "Index", "Product")</li>
+                    <li>@Html.ActionLink("SignUp", "SignUp", "User")</li>
+                    <li>@Html.ActionLink("Log in", "Login", "User")</li>
+                }
+            </ul>
         </div>
     </nav>
-    <div class="image">
-        <img style="width:100%" src="~/img/main.jpg" alt="chips image" />
-    </div>
     <div>
         @RenderBody()
     </div>

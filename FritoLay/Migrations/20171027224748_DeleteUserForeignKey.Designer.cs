@@ -8,9 +8,10 @@ using FritoLay.Models;
 namespace FritoLay.Migrations
 {
     [DbContext(typeof(FritoLayContext))]
-    partial class FritoLayContextModelSnapshot : ModelSnapshot
+    [Migration("20171027224748_DeleteUserForeignKey")]
+    partial class DeleteUserForeignKey
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2");

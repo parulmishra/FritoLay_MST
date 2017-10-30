@@ -1,4 +1,6 @@
 ﻿@model FritoLay.Models.Product
+@using System.Security.Claims
+@using FritoLay.Models
 
 @{
     ViewData["Title"] = "Product-Create";
@@ -6,20 +8,29 @@
 }
 <hr /><hr />
 <div class="well">
-    <h2>Add A New Product</h2>
-
-    @using (Html.BeginForm("Create", "Product", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    
+    @if (User.Identity.IsAuthenticated)
     {
-        @Html.LabelFor(model => model.ProductName)
-        @Html.EditorFor(model => model.ProductName)
+        <h2>Add A New Product</h2>
 
-        @Html.LabelFor(model => model.CountryOfOrigin)
-        @Html.EditorFor(model => model.CountryOfOrigin)
+        @using (Html.BeginForm("Create", "Product", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            @Html.LabelFor(model => model.ProductName)
+            @Html.EditorFor(model => model.ProductName)
 
-        @Html.LabelFor(model => model.Cost)
-        @Html.EditorFor(model => model.Cost)
+            @Html.LabelFor(model => model.CountryOfOrigin)
+            @Html.EditorFor(model => model.CountryOfOrigin)
 
-        <input type="submit" value="Create" class="btn btn-default" />
+            @Html.LabelFor(model => model.Cost)
+            @Html.EditorFor(model => model.Cost)
+
+            <input type="submit" value="Create" class="btn btn-default" />
+        }
+    }
+    else
+    {
+        <h3>@Html.ActionLink("Sign up", "SignUp", "User")</h3>
+        <h3>@Html.ActionLink("Log in", "Login", "User")</h3>
     }
     <button>@Html.ActionLink("Back to Products", "Index")</button>
 </div>

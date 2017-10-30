@@ -8,9 +8,10 @@ using FritoLay.Models;
 namespace FritoLay.Migrations
 {
     [DbContext(typeof(FritoLayContext))]
-    partial class FritoLayContextModelSnapshot : ModelSnapshot
+    [Migration("20171027193631_UserForiegnKey")]
+    partial class UserForiegnKey
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2");
@@ -28,7 +29,11 @@ namespace FritoLay.Migrations
 
                     b.Property<string>("ProductName");
 
+                    b.Property<string>("UserId");
+
                     b.HasKey("ProductId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Products");
                 });
@@ -208,6 +213,13 @@ namespace FritoLay.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("FritoLay.Models.Product", b =>
+                {
+                    b.HasOne("FritoLay.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("FritoLay.Models.Review", b =>

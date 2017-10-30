@@ -16,7 +16,7 @@ namespace FritoLay.Tests
     {
         // Arrange
         Mock<IProductRepository> mock = new Mock<IProductRepository>();
-        EFProductRepository db = new EFProductRepository(new TestDbContext());
+        EFProductRepository repo = new EFProductRepository(new TestDbContext());
 
         private void DbSetup()
         {
@@ -75,7 +75,7 @@ namespace FritoLay.Tests
         public void DB_CreateNewEntry_Test()
         {
             // Arrange
-            ProductController controller = new ProductController(db);
+            ProductController controller = new ProductController(repo);
             Product testProduct = new Product();
             testProduct.ProductName = "Test Product";
             testProduct.Cost = 15;

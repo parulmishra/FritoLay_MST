@@ -9,48 +9,49 @@ namespace FritoLay.Models
 {
     public class EFProductRepository : IProductRepository
     {
-        FritoLayContext db = new FritoLayContext();
+        private FritoLayContext context;
 
-        public EFProductRepository(FritoLayContext connection = null)
+        public static EFProductRepository Instance = new EFProductRepository();
+
+        public EFProductRepository(FritoLayContext context = null)
         {
-            if (connection == null)
+            if (context == null)
             {
-                this.db = new FritoLayContext();
+                this.context = new FritoLayContext();
             }
             else
             {
-                this.db = connection;
+                this.context = context;
             }
-
-            
         }
+
         public IQueryable<Product> Products
-        { get { return db.Products; } }
+        { get { return context.Products; } }
 
         public Product Save(Product product)
         {
-            db.Products.Add(product);
-            db.SaveChanges();
+            context.Products.Add(product);
+            context.SaveChanges();
             return product;
         }
 
         public void Remove(Product product)
         {
-            db.Products.Remove(product);
-            db.SaveChanges();
+            context.Products.Remove(product);
+            context.SaveChanges();
         }
 
         public Product Edit(Product product)
         {
-            db.Entry(product).State = EntityState.Modified;
-            db.SaveChanges();
+            context.Entry(product).State = EntityState.Modified;
+            context.SaveChanges();
             return product;
         }
 
         public Review Save(Review review)
         {
-            db.Reviews.Add(review);
-            db.SaveChanges();
+            context.Reviews.Add(review);
+            context.SaveChanges();
             return review;
         }
     }

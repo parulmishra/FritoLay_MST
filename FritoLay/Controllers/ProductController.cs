@@ -7,6 +7,8 @@ using FritoLay.Models.Repositories;
 using FritoLay.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -17,16 +19,11 @@ namespace FritoLay.Controllers
     {
         private IProductRepository productRepo { get; }
 
-        //public ProductController(IProductRepository productRepository)
-        //{
-        //    this.productRepository = productRepository;
-        //}
-
         public ProductController(IProductRepository thisRepo = null)
         {
             if (thisRepo == null)
             {
-                this.productRepo = new EFProductRepository();
+                this.productRepo = EFProductRepository.Instance;
             }
             else
             {
@@ -40,6 +37,7 @@ namespace FritoLay.Controllers
 
         public IActionResult Edit(int id)
         {
+
             var product = this.productRepo.Products.FirstOrDefault(p => p.ProductId == id);
             return View(product);
         }
@@ -81,6 +79,7 @@ namespace FritoLay.Controllers
         [HttpPost]
         public IActionResult Create(Product product)
         {
+            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             this.productRepo.Save(product);
             return RedirectToAction("Index");
         }
